@@ -5,12 +5,6 @@ type A struct {
 	HeapSize int
 }
 
-func swap(a, b *int) {
-	tmp := *a
-	*a = *b
-	*b = tmp
-}
-
 func maxHeapify(a *A, i int) {
 	left := 2*i + 1
 	right := 2*i + 2
