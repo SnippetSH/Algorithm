@@ -1,23 +1,8 @@
-#include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
 #include <string.h>
-
-int* insertionSort(int* arr, int len) {
-    for(int j = 2; j < len; j++) {
-        int key = arr[j];
-        int i = j - 1;
-
-        while(i >= 0 && arr[i] > key) {
-            arr[i+1] = arr[i];
-            i -= 1;
-        }
-
-        arr[i+1] = key;
-    }
-
-    return arr;
-}
+#include "insertion/insertion.h" 
 
 int main() {
     int arr[10000];
