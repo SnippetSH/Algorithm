@@ -4,11 +4,13 @@
 #include <string.h>
 #include "insertion/insertion.h" 
 
+#define N 10000
+
 int main() {
-    int arr[10000];
-    for(int i = 0; i < 10000; i++) {
+    int arr[N];
+    for(int i = 0; i < N; i++) {
         while(1) {
-            int val = rand()%10000;
+            int val = rand()%N;
             int isDuplicated = 0;
 
             for(int j = 0; j < i; j++) {
@@ -26,10 +28,10 @@ int main() {
     }
 
     for(int i = 0; i < 10; i++) {
-        int carr[10000];
+        int carr[N];
         memcpy(carr, arr, sizeof(arr));
         clock_t start = clock();
-        insertionSort(carr, 10000);
+        insertionSort(carr, N);
         clock_t end = clock();
         printf("Execution Time: %f ms\n", ((double)(end - start) / CLOCKS_PER_SEC) * 1000);
     }

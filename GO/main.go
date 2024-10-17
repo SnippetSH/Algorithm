@@ -5,17 +5,17 @@ import (
 	"math/rand"
 	"time"
 
+	"algorithm/dp"
 	"algorithm/sort"
 )
 
-func main() {
-	rand.Seed(time.Now().UnixNano())
-	N := 100000
+func MakeRandomArray(N int) []int {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	arr := make([]int, N)
 
 	for i := 0; i < len(arr); i++ {
 		for {
-			val := rand.Intn(N)
+			val := r.Intn(N)
 			isDuplicate := false
 
 			for j := 0; j < i; j++ {
@@ -32,29 +32,12 @@ func main() {
 		}
 	}
 
-	// fmt.Println(arr)
-	/*
-		s := 0
-		var totalTime time.Duration = 0
-		for i := 0; i < 100; i++ {
-			carr := make([]int, 10000)
-			copy(carr, arr)
-			a := &sort.A{
-				Arr:      carr,
-				HeapSize: len(carr),
-			}
+	return arr
+}
 
-			start := time.Now()
-			sort.HeapSort(a)
-			end := time.Since(start)
-			fmt.Println("Excution Time: ", end)
-			totalTime += end
-
-			// fmt.Println(carr)
-			s += carr[0]
-		}
-		fmt.Println(totalTime / 100)
-	*/
+func CallSortingAlgorithms() {
+	N := 100000
+	arr := MakeRandomArray(N)
 
 	// array 할당
 	carr1 := make([]int, N)
@@ -95,4 +78,57 @@ func main() {
 	sort.InsertionSort(carr4, len(carr4))
 	end = time.Since(start).Milliseconds()
 	fmt.Println("InsertionSort Excution Time: ", end, "ms")
+
+	// array 할당
+	carr5 := make([]int, N)
+	result := make([]int, N)
+	copy(carr5, arr)
+	// CountingSort
+	start = time.Now()
+	sort.CountingSort(carr5, result, N)
+	end = time.Since(start).Microseconds()
+	fmt.Println("CountingSort Excution Time: ", end, "µs")
+
+	// fmt.Println("Sorted Array by CountingSort: ", result)
+}
+
+func CallDPAlgorithms() {
+	e := []int{2, 4}
+	x := []int{3, 2}
+	a := [][]int{
+		{7, 9, 3, 4, 8, 4},
+		{8, 5, 6, 4, 5, 7},
+	}
+	t := [][]int{
+		{2, 1, 1, 3, 4},
+		{2, 1, 2, 2, 1},
+	}
+	L, l := dp.FastestWay(a, t, e, x, 6)
+
+	dp.PrintStation(L, l, 6)
+
+	fmt.Print("\n___________\n\n")
+
+	p := []int{0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30}
+	r, s := dp.ExtendeBottomUpCutRod(p, 10)
+	fmt.Println(s)
+
+	fmt.Println("result cost:", r)
+	dp.PrintCutRod(s, 10)
+
+	fmt.Print("\n___________\n\n")
+
+	X := string("ABCBDAB")
+	Y := string("BDCABA")
+	b, c := dp.LCS(X, Y)
+
+	m := len(X)
+	n := len(Y)
+	fmt.Println(c[m][n])
+	dp.PrintLCS(b, X, m, n)
+}
+
+func main() {
+	// CallSortingAlgorithms()
+	CallDPAlgorithms()
 }
