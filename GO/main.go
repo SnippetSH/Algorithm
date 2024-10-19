@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"algorithm/dp"
+	"algorithm/greedy"
 	"algorithm/sort"
 )
 
@@ -62,8 +63,10 @@ func CallSortingAlgorithms() {
 	fmt.Println("MergeSort Excution Time: ", end, "µs")
 
 	// array 할당
-	carr3 := make([]int, N)
-	copy(carr3, arr)
+	carr3 := make([]sort.Node[interface{}], N)
+	for i := range carr3 {
+		carr3[i].A = arr[i]
+	}
 	// QuickSort
 	start = time.Now()
 	sort.QuickSort(carr3, 0, len(carr3)-1)
@@ -126,9 +129,32 @@ func CallDPAlgorithms() {
 	n := len(Y)
 	fmt.Println(c[m][n])
 	dp.PrintLCS(b, X, m, n)
+
+	fmt.Print("\n___________\n\n")
+
+	P := []int{30, 35, 15, 5, 10, 20, 25}
+	M, S := dp.MatrixChainOrder(P)
+
+	for _, v := range M {
+		fmt.Println("Matrix Result:", v)
+	}
+
+	dp.PrintOptimalParens(S, 0, 5)
 }
 
 func main() {
 	// CallSortingAlgorithms()
-	CallDPAlgorithms()
+	// CallDPAlgorithms()
+
+	f := []int{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
+	s := []int{1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12}
+
+	nodes := make([]sort.Node[int], 11)
+	for i := range nodes {
+		nodes[i].A = f[i]
+		nodes[i].B = s[i]
+	}
+
+	n := greedy.ActivitySelection(nodes)
+	fmt.Println(n)
 }

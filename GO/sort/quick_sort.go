@@ -1,20 +1,25 @@
 package sort
 
-func partition(arr []int, p, r int) int {
-	x := arr[r]
+type Node[T any] struct {
+	A int
+	B T
+}
+
+func partition[T any](arr []Node[T], p, r int) int {
+	x := arr[r].A
 	i := p - 1
 	for j := p; j < r; j++ {
-		if arr[j] <= x {
+		if arr[j].A <= x {
 			i += 1
-			swap(&arr[i], &arr[j])
+			swap(&arr[i].A, &arr[j].A)
 		}
 	}
-	swap(&arr[i+1], &arr[r])
+	swap(&arr[i+1].A, &arr[r].A)
 
 	return i + 1
 }
 
-func QuickSort(arr []int, p, r int) {
+func QuickSort[T any](arr []Node[T], p, r int) {
 	if p < r {
 		q := partition(arr, p, r)
 		QuickSort(arr, p, q-1)
