@@ -142,10 +142,7 @@ func CallDPAlgorithms() {
 	dp.PrintOptimalParens(S, 0, 5)
 }
 
-func main() {
-	// CallSortingAlgorithms()
-	// CallDPAlgorithms()
-
+func CallGreedyAlgorithm() {
 	f := []int{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
 	s := []int{1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12}
 
@@ -157,4 +154,20 @@ func main() {
 
 	n := greedy.ActivitySelection(nodes)
 	fmt.Println(n)
+
+	fmt.Print("\n___________\n\n")
+
+	input := "aaaaaabbbbheellohieveryoneccc"
+	output, tree := greedy.Encode(input)
+	fmt.Println("Encoded Ouput:", output)
+
+	output = greedy.Decode(output, tree)
+	fmt.Println("Decoded Ouput:", output)
+}
+
+func main() {
+	// CallSortingAlgorithms()
+	// CallDPAlgorithms()
+
+	CallGreedyAlgorithm()
 }
