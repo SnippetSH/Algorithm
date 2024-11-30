@@ -1,10 +1,5 @@
 package sort
 
-type Node[T any] struct {
-	A int
-	B T
-}
-
 func partition[T any](arr []Node[T], p, r int) int {
 	x := arr[r].A
 	i := p - 1

@@ -29,3 +29,24 @@ func (pq *PriorityQueue[T]) Pop() any {
 	*pq = old[0 : n-1]
 	return item
 }
+
+type Queue[T any] []*T
+
+func (q *Queue[T]) Pop() any {
+	old := *q
+	item := old[0]
+	*q = old[1:]
+	return item
+}
+
+func (q *Queue[T]) Push(x any) {
+	*q = append(*q, x.(*T))
+}
+
+func (q *Queue[T]) IsEmpty() bool {
+	return len(*q) == 0
+}
+
+func (q *Queue[T]) Top() any {
+	return (*q)[0]
+}
