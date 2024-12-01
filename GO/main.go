@@ -5,9 +5,12 @@ import (
 	"math/rand"
 	"time"
 
+	mst "algorithm/MST"
+	"algorithm/disjoint"
 	"algorithm/dp"
 	"algorithm/graph"
 	"algorithm/greedy"
+	shortestpath "algorithm/shortest_path"
 	"algorithm/sort"
 )
 
@@ -242,6 +245,166 @@ func testTopologicalSort() {
 	fmt.Println(result)
 }
 
+func testDisjointSet() {
+	G := disjoint.NewGraph()
+	c := G.NewVertex()
+	h := G.NewVertex()
+	e := G.NewVertex()
+	b := G.NewVertex()
+	f := G.NewVertex()
+	d := G.NewVertex()
+	g := G.NewVertex()
+
+	fmt.Printf("c: %d \\", c.ID)
+	fmt.Printf("h: %d \\", h.ID)
+	fmt.Printf("e: %d \\", e.ID)
+	fmt.Printf("b: %d \\", b.ID)
+	fmt.Printf("f: %d \\", f.ID)
+	fmt.Printf("d: %d \\", d.ID)
+	fmt.Printf("g: %d \n", g.ID)
+
+	disjoint.Union(G, c, h)
+	disjoint.Union(G, c, e)
+	disjoint.Union(G, b, h)
+	disjoint.Union(G, f, d)
+	disjoint.Union(G, d, g)
+
+	fmt.Println(G.String())
+
+	disjoint.Union(G, b, g)
+	fmt.Println(G.String())
+}
+
+func testPrim() {
+	G := mst.NewGraph()
+
+	a := G.NewVertex("a")
+	b := G.NewVertex("b")
+	c := G.NewVertex("c")
+	d := G.NewVertex("d")
+	e := G.NewVertex("e")
+	f := G.NewVertex("f")
+	g := G.NewVertex("g")
+	h := G.NewVertex("h")
+	i := G.NewVertex("i")
+
+	G.NewEdge(a, b, 4)
+	G.NewEdge(a, h, 8)
+	G.NewEdge(b, c, 8)
+	G.NewEdge(c, i, 2)
+	G.NewEdge(c, d, 7)
+	G.NewEdge(d, e, 9)
+	G.NewEdge(d, f, 14)
+	G.NewEdge(e, f, 10)
+	G.NewEdge(f, g, 2)
+	G.NewEdge(f, c, 4)
+	G.NewEdge(g, h, 1)
+	G.NewEdge(h, i, 7)
+	G.NewEdge(g, i, 6)
+	G.NewEdge(b, h, 11)
+
+	result := mst.Prim(G, a)
+	total := 0
+	for _, e := range result {
+		total += e.Weight
+		fmt.Printf("%s's weight is %d\n", e.Name, e.Weight)
+	}
+	fmt.Println("Total Weight: ", total)
+}
+
+func testKruskal() {
+	G := mst.KNewGraph()
+
+	a := G.NewVertex("a")
+	b := G.NewVertex("b")
+	c := G.NewVertex("c")
+	d := G.NewVertex("d")
+	e := G.NewVertex("e")
+	f := G.NewVertex("f")
+	g := G.NewVertex("g")
+	h := G.NewVertex("h")
+	i := G.NewVertex("i")
+
+	G.NewEdge(a, b, 4)
+	G.NewEdge(a, h, 8)
+	G.NewEdge(b, c, 8)
+	G.NewEdge(c, i, 2)
+	G.NewEdge(c, d, 7)
+	G.NewEdge(d, e, 9)
+	G.NewEdge(d, f, 14)
+	G.NewEdge(e, f, 10)
+	G.NewEdge(f, g, 2)
+	G.NewEdge(f, c, 4)
+	G.NewEdge(g, h, 1)
+	G.NewEdge(h, i, 7)
+	G.NewEdge(g, i, 6)
+	G.NewEdge(b, h, 11)
+
+	result := mst.Kruskal(G)
+	total := 0
+	for _, e := range result {
+		total += e.Weight
+		fmt.Printf("%s's weight is %d\n", e.Name, e.Weight)
+	}
+	fmt.Println("Total Weight: ", total)
+}
+
+func testDijkstra() {
+	g := shortestpath.NewGraph()
+
+	s := g.NewVertex("s")
+	t := g.NewVertex("t")
+	x := g.NewVertex("x")
+	y := g.NewVertex("y")
+	z := g.NewVertex("z")
+
+	g.NewEdge(s, t, 10)
+	g.NewEdge(s, y, 5)
+	g.NewEdge(t, y, 2)
+	g.NewEdge(t, x, 1)
+	g.NewEdge(y, t, 3)
+	g.NewEdge(y, z, 2)
+	g.NewEdge(y, x, 9)
+	g.NewEdge(x, z, 4)
+	g.NewEdge(z, x, 6)
+	g.NewEdge(z, s, 7)
+
+	shortestpath.Dijkstra(g, s)
+	for _, v := range g.V {
+		fmt.Printf("%s's shortest distance from s: %d\n", v.ID, v.Distance)
+	}
+}
+
+func testBellmanFord() {
+	g := shortestpath.NewGraph()
+
+	s := g.NewVertex("s")
+	t := g.NewVertex("t")
+	x := g.NewVertex("x")
+	y := g.NewVertex("y")
+	z := g.NewVertex("z")
+
+	g.NewEdge(s, t, 6)
+	g.NewEdge(s, y, 7)
+
+	g.NewEdge(t, y, 8)
+	g.NewEdge(t, x, 5)
+	g.NewEdge(t, z, -4)
+
+	g.NewEdge(y, z, 9)
+	g.NewEdge(y, x, -3)
+
+	g.NewEdge(x, t, -2)
+
+	g.NewEdge(z, x, 7)
+	g.NewEdge(z, s, 2)
+
+	shortestpath.BellmanFord(g, s)
+	for _, v := range g.V {
+		fmt.Printf("%s's shortest distance from s: %d\n", v.ID, v.Distance)
+	}
+}
+
 func main() {
 	// CallSortingAlgorithms()
 	// CallDPAlgorithms()
@@ -249,5 +412,10 @@ func main() {
 	// CallGreedyAlgorithm()
 	// testDFS()
 	// testBFS()
-	testTopologicalSort()
+	// testTopologicalSort()
+	// testDisjointSet()
+	// testPrim()
+	// testKruskal()
+	// testDijkstra()
+	testBellmanFord()
 }

@@ -1,15 +1,21 @@
 package sort
 
+func qswap[T any](a, b *Node[T]) {
+	t := *a
+	*a = *b
+	*b = t
+}
+
 func partition[T any](arr []Node[T], p, r int) int {
 	x := arr[r].A
 	i := p - 1
 	for j := p; j < r; j++ {
 		if arr[j].A <= x {
 			i += 1
-			swap(&arr[i].A, &arr[j].A)
+			qswap(&arr[i], &arr[j])
 		}
 	}
-	swap(&arr[i+1].A, &arr[r].A)
+	qswap(&arr[i+1], &arr[r])
 
 	return i + 1
 }

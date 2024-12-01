@@ -2,24 +2,33 @@ package helper
 
 type Comparator interface {
 	Cmp() int
+	Index() *int
+	SetIndex(int)
 }
 
-type PriorityQueue[T Comparator] []*T
+type PriorityQueue[T Comparator] []T
 
 func (pq PriorityQueue[T]) Len() int {
 	return len(pq)
 }
 
 func (pq PriorityQueue[T]) Less(i, j int) bool {
-	return (*pq[i]).Cmp() < (*pq[j]).Cmp()
+	return (pq[i]).Cmp() < (pq[j]).Cmp()
 }
 
 func (pq PriorityQueue[T]) Swap(i, j int) {
 	pq[i], pq[j] = pq[j], pq[i]
+
+	if I, ok := any(pq[i]).(T); ok {
+		I.SetIndex(i)
+	}
+	if J, ok := any(pq[j]).(T); ok {
+		J.SetIndex(j)
+	}
 }
 
 func (pq *PriorityQueue[T]) Push(x any) {
-	*pq = append(*pq, x.(*T))
+	*pq = append(*pq, x.(T))
 }
 
 func (pq *PriorityQueue[T]) Pop() any {

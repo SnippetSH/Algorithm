@@ -17,6 +17,14 @@ func (n Node) Cmp() int {
 	return n.Freq
 }
 
+func (n Node) SetIndex(i int) {
+
+}
+
+func (n Node) Index() *int {
+	return &n.Freq
+}
+
 func GenerateCode(code map[rune]string, node *Node, prefix string) {
 	if node == nil {
 		return
