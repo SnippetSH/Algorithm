@@ -405,6 +405,23 @@ func testBellmanFord() {
 	}
 }
 
+func testFloyWarshall() {
+	const inf = int(^uint32(0) >> 1)
+
+	var distance = shortestpath.Distance{
+		{0, 3, 8, inf, -4},
+		{inf, 0, inf, 1, 7},
+		{inf, 4, 0, inf, inf},
+		{2, inf, -5, 0, inf},
+		{inf, inf, inf, 6, 0},
+	}
+
+	D, Pi := shortestpath.FloydWarshall(distance)
+	fmt.Println(D)
+
+	shortestpath.PrintFloydWarshall(Pi, 0, 3)
+}
+
 func main() {
 	// CallSortingAlgorithms()
 	// CallDPAlgorithms()
@@ -417,5 +434,6 @@ func main() {
 	// testPrim()
 	// testKruskal()
 	// testDijkstra()
-	testBellmanFord()
+	// testBellmanFord()
+	testFloyWarshall()
 }
